@@ -6,7 +6,7 @@
 /*   By: pgrellie <pgrellie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 13:43:59 by pgrellie          #+#    #+#             */
-/*   Updated: 2024/09/17 18:26:28 by pgrellie         ###   ########.fr       */
+/*   Updated: 2024/10/09 15:14:37 by pgrellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,17 @@ t_token	*find_last(t_token *tok)
 	return (tmp);
 }
 
+int	token_counter(t_token *tok)
+{
+	int	x;
 
-// int	token_len(t_token *tok)
-// {
-// 	int	x;
-
-// 	if (!tok)
-// 		return (0);
-// 	x = 0;
-// 	while (tok)
-// 	{
-// 		tok = tok->next;
-// 		x++;
-// 	}
-// 	return (x);
-// }
+	if (!tok)
+		return (0);
+	x = 0;
+	while (tok)
+	{
+		x++;
+		tok = tok->next;
+	}
+	return (x);
+}

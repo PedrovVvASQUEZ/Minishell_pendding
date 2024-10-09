@@ -6,7 +6,7 @@
 /*   By: pgrellie <pgrellie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:51:23 by pgrellie          #+#    #+#             */
-/*   Updated: 2024/10/03 15:14:02 by pgrellie         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:59:25 by pgrellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ char	*prompt(t_ms *ms)
 	return (input);
 }
 
+
+
 t_ms	*init_ms(void)
 {
 	t_ms	*ms;
@@ -46,6 +48,7 @@ t_ms	*init_ms(void)
 	ms->prompt = NULL;
 	ms->env = NULL;
 	ms->tokens = NULL;
+	ms->p = NULL;
 	ms->v_return = 0;
 	ms->t_count = 0;
 	return (ms);
@@ -54,8 +57,11 @@ t_ms	*init_ms(void)
 t_ms	*init_program(char **env)
 {
 	t_ms	*ms;
+	int		sig_val;
 
-	// signals_handler();
+	sig_val = SIGINT;
+	ft_sigint_setup();
+	ft_sigquit_setup();
 	ms = init_ms();
 	ms->env = init_env(env);
 	if (ms->env == NULL)
@@ -73,16 +79,13 @@ void	the_program(t_ms *ms)
 		ms->prompt = prompt(ms);
 		if (ft_strcmp(ms->prompt, "exit") == 0)
 			break ;
-		if (full_check(ms->prompt) == true)
-		{
-			ms->tokens = lexer(ms->prompt);
-			expander(ms);
-			display_tokens(ms->tokens);
-		}
-		// handle_here_doc(ms, &ms->tokens);
-		// executor(ms);
+		if (!full_check(ms))
+			continue ;
+		// handle_here_doc(ms->tokens);
+		ms->v_return = executor(ms);
 		free_tokens(&ms->tokens);
 		free(ms->prompt);
+		free(ms->p);
 	}
 	free(ms->prompt);
 }

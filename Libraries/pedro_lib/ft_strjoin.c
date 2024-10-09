@@ -37,4 +37,30 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	str[y] = '\0';
 	return (str);
 }
-	// str[y++] = ' ';
+
+char	*ft_strjoin_equal(char const *s1, char const *s2)
+{
+	size_t	x;
+	size_t	y;
+	char	*str;
+
+	if (!s1 || !s2)
+		return (NULL);
+	str = ft_calloc((ft_strlen(s1) + ft_strlen(s2)) + 2, sizeof(char));
+	if (!str)
+		return (free(str), NULL);
+	x = 0;
+	y = 0;
+	while (s1[x] != '\0')
+	{
+		str[y++] = s1[x++];
+	}
+	x = 0;
+	str[y++] = '=';
+	while (s2[x] != '\0')
+	{
+		str[y++] = s2[x++];
+	}
+	str[y] = '\0';
+	return (str);
+}

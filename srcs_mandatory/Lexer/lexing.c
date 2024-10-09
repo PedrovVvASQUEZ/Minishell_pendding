@@ -6,7 +6,7 @@
 /*   By: pgrellie <pgrellie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 17:35:23 by pgrellie          #+#    #+#             */
-/*   Updated: 2024/10/03 14:59:56 by pgrellie         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:34:16 by pgrellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,6 @@ t_token	*lexer(char *input)
 		return (NULL);
 	butcher(input, &tokens);
 	assign_token_types(tokens);
-	display_tokens(tokens);
+	// display_tokens(tokens);
 	return (tokens);
 }

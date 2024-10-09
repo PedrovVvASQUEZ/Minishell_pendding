@@ -6,7 +6,7 @@
 /*   By: pgrellie <pgrellie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:02:28 by pgrellie          #+#    #+#             */
-/*   Updated: 2024/10/03 18:39:36 by pgrellie         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:26:55 by pgrellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ char	*process_token_value(t_token *tok,
 		if (tok->value[v.x] == '$' && tok->value[v.x + 1])
 		{
 			if (tok->value[v.x + 1] == '$')
-				fs = double_dollar(fs, &v.x);
+				double_dollar(fs, &v.x, &v.y);
 			else if (tok->value[v.x + 1] == '?' && expandable(tok->value, v.x))
-				fs = dollar_bruh(fs, &v.x, v_return);
+				dollar_bruh(fs, &v.x, &v.y, v_return);
 			else if (expandable(tok->value, v.x))
-				fs = expand_variable(tok, env, &v.x, fs);
+				expand_variable(tok, env, &v, fs);
 			else
 				fs[v.y++] = tok->value[v.x++];
 		}
@@ -68,38 +68,37 @@ char	*process_token_value(t_token *tok,
 			fs[v.y++] = tok->value[v.x++];
 		if (!fs)
 			return (NULL);
-		v.y = ft_strlen(fs);
 	}
 	fs[v.y] = '\0';
 	return (fs);
 }
 
-char	*transformer(t_token *tok, char *fs)
+void	transformer(t_token *tok, char *fs)
 {
 	if (!tok || !fs)
-		return (NULL);
+		return ;
 	if (tok->value)
 		free(tok->value);
 	tok->value = ft_strdup(fs);
 	if (!tok->value)
 	{
 		free(fs);
-		return (NULL);
+		return ;
 	}
 	free(fs);
-	return (tok->value);
 }
 
 void	dr_kron(t_token *tok, t_env *env, int v_return)
 {
 	char	*fs;
+	char	*tmp;
 
 	if (!tok || !env || !tok->value || !env->value)
 		return ;
-	fs = malloc_calculator(tok, env, v_return);
-	if (!fs)
+	tmp = malloc_calculator(tok, env, v_return);
+	if (!tmp)
 		return ;
-	fs = process_token_value(tok, env, v_return, fs);
+	fs = process_token_value(tok, env, v_return, tmp);
 	if (!fs)
 		return ;
 	transformer(tok, fs);

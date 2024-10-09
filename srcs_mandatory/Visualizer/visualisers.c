@@ -6,7 +6,7 @@
 /*   By: pgrellie <pgrellie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:23:10 by pgrellie          #+#    #+#             */
-/*   Updated: 2024/10/02 17:12:23 by pgrellie         ###   ########.fr       */
+/*   Updated: 2024/10/09 16:30:49 by pgrellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	display_tokens(t_token *tokens)
 	token = tokens;
 	while (token)
 	{
-		printf("Token: \033[0;36m %-20s \033[0m |\t \
+		printf("Token: \033[0;36m `%s` \033[0m |\t \
 			Type: \033[0;35m %-18s \033[0m \n",
 			token->value, get_token_type_name(token->type));
 		printf("--------------------------------------------------\n");

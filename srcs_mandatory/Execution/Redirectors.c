@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   full_checker.c                                     :+:      :+:    :+:   */
+/*   Redirectors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pgrellie <pgrellie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/22 17:44:59 by pgrellie          #+#    #+#             */
-/*   Updated: 2024/10/09 18:34:31 by pgrellie         ###   ########.fr       */
+/*   Created: 2024/10/08 17:58:05 by pgrellie          #+#    #+#             */
+/*   Updated: 2024/10/09 16:44:20 by pgrellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	full_check(t_ms *ms)
+void	redirector(t_ms *ms, int x)
 {
-	if (q_check(ms->prompt) == false || c_check(ms->prompt) == false
-		|| shit_check_1(ms->prompt) == false)
+	if (x != 0)
 	{
-		ft_putstr_fd("/! error bitch /! \n", 2);
-		return (false);
+		dup2(ms->p->previousfd, STDIN_FILENO);
+		close(ms->p->previousfd);
 	}
-	else
-	{
-		ms->tokens = lexer(ms->prompt);
-		expander(ms);
-		display_tokens(ms->tokens);
-		return (true);
-	}
+	if (x != ms->p->cmd_count - 1)
+		dup2(ms->p->pipefd[1], STDOUT_FILENO);
+	close(ms->p->pipefd[0]);
+	close(ms->p->pipefd[1]);
 }

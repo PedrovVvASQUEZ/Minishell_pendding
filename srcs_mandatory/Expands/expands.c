@@ -6,73 +6,56 @@
 /*   By: pgrellie <pgrellie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:08:24 by pgrellie          #+#    #+#             */
-/*   Updated: 2024/10/03 16:39:09 by pgrellie         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:16:26 by pgrellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*double_dollar(char *fs, int *x)
+void	double_dollar(char *fs, int *x, int *y)
 {
-	char	*new_fs;
-	char	*tmp;
-
-	tmp = ft_strjoin(fs, "$$");
-	if (!tmp)
-		return (NULL);
-	new_fs = ft_strdup(tmp);
-	free(tmp);
-	if (!new_fs)
-		return (NULL);
+	fs[(*y)++] = '$';
+	fs[(*y)++] = '$';
 	*x += 2;
-	return (new_fs);
 }
 
-char	*dollar_bruh(char *fs, int *x, int v_return)
+void	dollar_bruh(char *fs, int *x, int *y, int v_return)
 {
 	char	*v_return_str;
-	char	*new_fs;
-	char	*tmp;
+	int		i;
 
+	i = 0;
 	v_return_str = ft_itoa(v_return);
 	if (!v_return_str)
-		return (NULL);
-	tmp = ft_strjoin(fs, v_return_str);
+		return ;
+	while (v_return_str[i])
+	{
+		fs[(*y)++] = v_return_str[i++];
+	}
 	free(v_return_str);
-	if (!tmp)
-		return (NULL);
-	new_fs = ft_strdup(tmp);
-	if (!new_fs)
-		return (NULL);
-	free(tmp);
 	*x += 2;
-	return (new_fs);
 }
 
-char	*expand_variable(t_token *tok, t_env *env, int *x, char *fs)
+void	expand_variable(t_token *tok, t_env *env, t_var *v, char *fs)
 {
 	char	*var_name;
 	t_env	*ev;
 	char	*var_value;
-	char	*tmp;
-	char	*new_fs;
+	int		i;
 
-	var_name = tracker(tok->value, x);
+	i = 0;
+	var_name = tracker(tok->value, &v->x);
 	if (!var_name)
-		return (NULL);
+		return ;
 	ev = find_node(var_name, env);
 	free(var_name);
 	if (!ev || !ev->value)
-		return (fs);
+		return ;
 	var_value = ev->value;
-	tmp = ft_strjoin(fs, var_value);
-	if (!tmp)
-		return (NULL);
-	new_fs = ft_strdup(tmp);
-	free(tmp);
-	if (!new_fs)
-		return (NULL);
-	return (new_fs);
+	while (var_value[i])
+	{
+		fs[v->y++] = var_value[i++];
+	}
 }
 
 // char	*expand_env_value(char *fs, char *env_value, int *x, char *tok_value)

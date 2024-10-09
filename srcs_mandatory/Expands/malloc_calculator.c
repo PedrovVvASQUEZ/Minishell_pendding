@@ -6,7 +6,7 @@
 /*   By: pgrellie <pgrellie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:38:14 by pgrellie          #+#    #+#             */
-/*   Updated: 2024/10/03 16:33:34 by pgrellie         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:30:10 by pgrellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ char	*malloc_calculator(t_token *tok, t_env *env, int v_return)
 		else
 			len += handle_other_chars(&x);
 	}
-	// printf("DEBUG 2 : %zu", len);
 	return ((char *)ft_calloc(len + 1, sizeof(char)));
 }
 
